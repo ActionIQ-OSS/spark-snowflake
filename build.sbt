@@ -27,7 +27,7 @@ val defaultScalaVersion = "2.12.15"
  * Tests/jenkins/BumpUpSparkConnectorVersion/run.sh
  * in snowflake repository.
  */
-val sparkConnectorVersion = "2.9.3-aiq1"
+val sparkConnectorVersion = "2.9.3-aiq1-intDecimalParam"
 
 lazy val ItTest = config("it") extend Test
 
