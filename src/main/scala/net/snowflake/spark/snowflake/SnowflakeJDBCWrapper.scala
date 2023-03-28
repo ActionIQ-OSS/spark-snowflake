@@ -788,7 +788,7 @@ private[snowflake] class SnowflakeSQLStatement(
       val logMsg = s"""${SnowflakeResultSetRDD.MASTER_LOG_PREFIX}:
                          |execute query without bind variable: $query
                          |
-                         |${Thread.currentThread.getStackTrace.map(_.toString).mkString("\n")}
+                         |${Thread.currentThread.getStackTrace.mkString("\n")}
                          |""".stripMargin.filter(_ >= ' ')
       log.info(logMsg)
     } else {
