@@ -786,16 +786,19 @@ private[snowflake] class SnowflakeSQLStatement(
 
     if (log.isDebugEnabled) {
       val logMsg = s"""${SnowflakeResultSetRDD.MASTER_LOG_PREFIX}:
-                         |execute query without bind variable: $query
+                         |execute query without bind variable =>
+                         |$query
                          |
-                         |${Thread.currentThread.getStackTrace.mkString("\n")}
-                         |""".stripMargin.filter(_ >= ' ')
-      log.info(logMsg)
+                         |callstack =>
+                         |${Thread.currentThread.getStackTrace.take(30).mkString("\n")}
+                         |""".stripMargin
+      log.debug(logMsg)
     } else {
-      val logPrefix = s"""${SnowflakeResultSetRDD.MASTER_LOG_PREFIX}:
-                         | execute query without bind variable:
-                         |""".stripMargin.filter(_ >= ' ')
-      log.info(s"$logPrefix $query")
+      val logMsg = s"""${SnowflakeResultSetRDD.MASTER_LOG_PREFIX}:
+                         |execute query without bind variable =>
+                         |$query
+                         |""".stripMargin
+      log.info(logMsg)
     }
 
     conn.prepareStatement(query)
