@@ -790,7 +790,7 @@ private[snowflake] class SnowflakeSQLStatement(
          |$query
          |
          |callstack =>
-         |${Thread.currentThread.getStackTrace.take(30).mkString("\n")}
+         |${Thread.currentThread.getStackTrace.mkString("\n")}
          |""".stripMargin
       log.debug(logMsg)
     } else {
