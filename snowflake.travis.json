@@ -8,8 +8,10 @@
     "sfDatabase": "TEST_DB",
     "sfSchema": "PUBLIC",
     "sfWarehouse": "DEMO_WH",
+    "query_tag": "spark-snowflake-ci",
+    "APPLICATION": "spark-snowflake-ci",
     "sfUser": "AIQ_USER_HERE",
-    "pem_private_key": "xxxx"
+    "sfPassword": "AIQ_PASSWORD_HERE"
     },
   "account_info": [
     {
