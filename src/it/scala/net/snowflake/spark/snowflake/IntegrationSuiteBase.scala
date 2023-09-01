@@ -70,7 +70,6 @@ trait IntegrationSuiteBase
     }
 
     if (!bypass) {
-      println(s"MITESHP LAST SELECT :${Utils.getLastSelect}")
       assert(
         Utils.getLastSelect.replaceAll("\\s+", "").toLowerCase == reference.trim
           .replaceAll("\\s+", "")
