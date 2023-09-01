@@ -24,6 +24,16 @@ val defaultScalaVersion = "2.12.15"
 // publish version of this connector
 val sparkConnectorVersion = "2.9.3-aiq7"
 
+// keep in sync with spark version
+val fasterXmlVer = "2.9.10"
+val fasterXmlDeps = Seq(
+  "com.fasterxml.jackson.core" % "jackson-annotations" % fasterXmlVer,
+  "com.fasterxml.jackson.core" % "jackson-databind" % fasterXmlVer,
+  "com.fasterxml.jackson.core" % "jackson-core" % fasterXmlVer,
+  "com.fasterxml.jackson.module" % "jackson-module-paranamer" % fasterXmlVer,
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % fasterXmlVer,
+)
+
 lazy val ItTest = config("it") extend Test
 
 // Test to use self-download or self-build JDBC driver
@@ -70,7 +80,8 @@ lazy val root = project.withId("spark-snowflake").in(file("."))
       "org.apache.spark" %% "spark-sql" % testSparkVersion % "provided, test" classifier "test-sources",
       "org.apache.spark" %% "spark-catalyst" % testSparkVersion % "provided, test" classifier "test-sources"
       // "org.apache.spark" %% "spark-hive" % testSparkVersion % "provided, test"
-    ),
+    ) ++ fasterXmlDeps,
+    dependencyOverrides ++= fasterXmlDeps,
 
     Test / testOptions += Tests.Argument("-oF"),
     Test / fork := true,

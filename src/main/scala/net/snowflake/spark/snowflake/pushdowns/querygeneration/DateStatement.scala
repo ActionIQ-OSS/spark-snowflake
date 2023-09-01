@@ -52,7 +52,20 @@ private[querygeneration] object DateStatement {
       ---   "select aiq_day_start(1460080000000, 'America/New_York', 2)"
       --- ).as[Long].collect.head == 1460174400000L
 
-      select DATE_PART(epoch_millisecond, DATEADD(day, 2, DATE_TRUNC('day', CONVERT_TIMEZONE('America/New_York', 1460080000000::varchar))))
+      select DATE_PART(
+        epoch_millisecond,
+        DATE_TRUNC(
+          'day',
+          DATEADD(
+            day,
+            2,
+            CONVERT_TIMEZONE(
+              'America/New_York',
+              1460080000000::varchar
+            )
+          )
+        )
+      )
       -- 1460174400000
        */
       case AiqDayStart(timestampLong, timezoneStr, plusDaysInt) =>
@@ -61,25 +74,25 @@ private[querygeneration] object DateStatement {
           Seq(
             ConstantString("epoch_millisecond").toStatement,
             functionStatement(
-              "DATE_ADD",
+              "DATE_TRUNC",
               Seq(
-                ConstantString("day").toStatement,
-                convertStatement(plusDaysInt, fields),
+                ConstantString("'day'").toStatement,
                 functionStatement(
-                  "DATE_TRUNC",
+                  "DATEADD",
                   Seq(
-                    ConstantString("day").toStatement,
+                    ConstantString("'day'").toStatement,
+                    convertStatement(plusDaysInt, fields),
                     functionStatement(
                       "CONVERT_TIMEZONE",
                       Seq(
                         convertStatement(timezoneStr, fields),
                         convertStatement(timestampLong, fields) + ConstantString("::varchar"),
-                      )
-                    )
-                  )
-                )
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            )
+            ),
           ),
         )
 
