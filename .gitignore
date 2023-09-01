@@ -9,8 +9,7 @@ build/*.jar
 metastore_db/*
 *.log
 check/
-snowflake.travis.json.gpg
-snowflake.travis.json.example
+snowflake.travis.json
 lib/
 ClusterTest/work/
 ClusterTest/snowflake.travis.json
