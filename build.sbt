@@ -47,8 +47,8 @@ lazy val root = project.withId("spark-snowflake").in(file("."))
     resolvers +=
       "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     resolvers += Resolver.mavenLocal,
-    resolvers += "aiq-artifacts".at("https://s3-us-east-1.amazonaws.com/aiq-artifacts/releases"),
-    resolvers += "Artifactory".at("https://actioniq.jfrog.io/artifactory/aiq-sbt-local/"),
+//    resolvers += "aiq-artifacts".at("s3://s3-us-east-1.amazonaws.com/aiq-artifacts/releases"),
+    resolvers += "Artifactory".at("https://actioniq.jfr og.io/artifactory/aiq-sbt-local/"),
     libraryDependencies ++= Seq(
       "net.snowflake" % "snowflake-ingest-sdk" % "0.10.3",
       "net.snowflake" % "snowflake-jdbc" % "3.13.14",
