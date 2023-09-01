@@ -1,0 +1,34 @@
+{
+  "common": {
+    "sfCompress": "on",
+    "sfSSL": "on",
+    "dbtable": "SPARK_SNOWFLAKE_CI",
+    "runOption": "snowflake-stage",
+    "sfTimeZone": "GMT",
+    "sfDatabase": "TEST_DB",
+    "sfSchema": "PUBLIC",
+    "sfWarehouse": "DEMO_WH",
+    "sfUser": "AIQ_USER_HERE",
+    "pem_private_key": "xxxx"
+    },
+  "account_info": [
+    {
+      "name": "aws",
+      "config": {
+        "sfURL": "AIQ_URL_HERE"
+      }
+    },
+    {
+      "name": "azure",
+      "config": {
+        "sfURL": "xxxx.east-us-2.azure.snowflakecomputing.com"
+      }
+    },
+    {
+      "name": "gcp",
+      "config": {
+        "sfURL": "xxxx.us-central1.gcp.snowflakecomputing.com"
+      }
+    }
+  ]
+}

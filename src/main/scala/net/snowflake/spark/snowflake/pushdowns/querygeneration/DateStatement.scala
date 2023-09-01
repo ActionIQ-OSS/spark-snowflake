@@ -1,19 +1,7 @@
 package net.snowflake.spark.snowflake.pushdowns.querygeneration
 
 import net.snowflake.spark.snowflake.{ConstantString, SnowflakeSQLStatement}
-import org.apache.spark.sql.catalyst.expressions.{
-  AddMonths,
-  AiqDayStart,
-  Attribute,
-  DateAdd,
-  DateSub,
-  Expression,
-  Month,
-  Quarter,
-  TruncDate,
-  TruncTimestamp,
-  Year
-}
+import org.apache.spark.sql.catalyst.expressions.{AddMonths, AiqDayStart, Attribute, DateAdd, DateSub, Expression, Month, Quarter, TruncDate, TruncTimestamp, Year}
 
 /** Extractor for boolean expressions (return true or false). */
 private[querygeneration] object DateStatement {
@@ -59,7 +47,41 @@ private[querygeneration] object DateStatement {
         ConstantString(expr.prettyName.toUpperCase) +
           blockStatement(convertStatements(fields, expr.children: _*))
 
-      case AiqDayStart(_, _, _) => ???
+      /*
+      --- spark.sql(
+      ---   "select aiq_day_start(1460080000000, 'America/New_York', 2)"
+      --- ).as[Long].collect.head == 1460174400000L
+
+      select DATE_PART(epoch_millisecond, DATEADD(day, 2, DATE_TRUNC('day', CONVERT_TIMEZONE('America/New_York', 1460080000000::varchar))))
+      -- 1460174400000
+       */
+      case AiqDayStart(timestampLong, timezoneStr, plusDaysInt) =>
+        functionStatement(
+          "DATE_PART",
+          Seq(
+            ConstantString("epoch_millisecond").toStatement,
+            functionStatement(
+              "DATE_ADD",
+              Seq(
+                ConstantString("day").toStatement,
+                convertStatement(plusDaysInt, fields),
+                functionStatement(
+                  "DATE_TRUNC",
+                  Seq(
+                    ConstantString("day").toStatement,
+                    functionStatement(
+                      "CONVERT_TIMEZONE",
+                      Seq(
+                        convertStatement(timezoneStr, fields),
+                        convertStatement(timestampLong, fields) + ConstantString("::varchar"),
+                      )
+                    )
+                  )
+                )
+              ),
+            )
+          ),
+        )
 
       case _ => null
     })
