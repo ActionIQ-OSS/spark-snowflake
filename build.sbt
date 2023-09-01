@@ -17,7 +17,7 @@
 import scala.util.Properties
 import sbt.Resolver
 
-val sparkVersion = "2-4-7-aiq63"
+val sparkVersion = "2-4-7-aiq64"
 val testSparkVersion = sys.props.get("spark.testVersion").getOrElse(sparkVersion)
 val defaultScalaVersion = "2.12.15"
 
@@ -46,9 +46,10 @@ lazy val root = project.withId("spark-snowflake").in(file("."))
     credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
     resolvers +=
       "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+    resolvers += "aiq-artifacts".at("s3://s3-us-east-1.amazonaws.com/aiq-artifacts/releases"),
+    resolvers += "Artifactory".at("https://actioniq.jfrog.io/artifactory/aiq-sbt-local/"),
+    resolvers += DefaultMavenRepository,
     resolvers += Resolver.mavenLocal,
-//    resolvers += "aiq-artifacts".at("s3://s3-us-east-1.amazonaws.com/aiq-artifacts/releases"),
-    resolvers += "Artifactory".at("https://actioniq.jfr og.io/artifactory/aiq-sbt-local/"),
     libraryDependencies ++= Seq(
       "net.snowflake" % "snowflake-ingest-sdk" % "0.10.3",
       "net.snowflake" % "snowflake-jdbc" % "3.13.14",

@@ -3,6 +3,7 @@ package net.snowflake.spark.snowflake.pushdowns.querygeneration
 import net.snowflake.spark.snowflake.{ConstantString, SnowflakeSQLStatement}
 import org.apache.spark.sql.catalyst.expressions.{
   AddMonths,
+  AiqDayStart,
   Attribute,
   DateAdd,
   DateSub,
@@ -57,6 +58,8 @@ private[querygeneration] object DateStatement {
            _: TruncDate | _: TruncTimestamp =>
         ConstantString(expr.prettyName.toUpperCase) +
           blockStatement(convertStatements(fields, expr.children: _*))
+
+      case AiqDayStart(_, _, _) => ???
 
       case _ => null
     })
